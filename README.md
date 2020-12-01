@@ -11,6 +11,8 @@
 - [JVM memory params](https://www.baeldung.com/jvm-parameters)
 - [memory usage](https://www.baeldung.com/java-heap-memory-api)
 - [basic coroutines](https://kotlinlang.org/docs/tutorials/coroutines/coroutines-basic-jvm.html)
+- [coroutines #1](https://kotlinexpertise.com/kotlin-coroutines-guide/)
+- [coroutines #2](https://kotlinexpertise.com/kotlin-coroutines-concurrency/)
 
 #### notes
 
