@@ -1,3 +1,7 @@
+package d01
+
+import common.combine2seq
+import common.combine3seq
 import java.io.File
 
 internal fun parseInput(): List<Int> {

@@ -1,6 +1,8 @@
+package common
+
 fun <A>combine2seq(lst:List<A>, withReps:Boolean):Sequence<Pair<A, A>> {
     val n = lst.size
-    return sequence<Pair<A, A>> {
+    return sequence {
         for (i in 0 until n) {
             for (j in 0 until n) {
                 val addPair = (!withReps && i < j) || (withReps && i != j)
@@ -14,7 +16,7 @@ fun <A>combine2seq(lst:List<A>, withReps:Boolean):Sequence<Pair<A, A>> {
 
 fun <A>combine3seq(lst:List<A>, withReps:Boolean):Sequence<Triple<A, A, A>> {
     val n = lst.size
-    return sequence<Triple<A, A, A>> {
+    return sequence {
         for (i in 0 until n) {
             for (j in 0 until n) {
                 for (k in 0 until n) {

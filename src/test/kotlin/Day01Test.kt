@@ -1,6 +1,8 @@
 import org.junit.Test
 import org.junit.Assert.assertEquals
 
+import d01.part1
+
 class Day01Test {
     @Test
     fun sample01() {

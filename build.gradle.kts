@@ -43,10 +43,10 @@ tasks.test {
     }
 }
 
-tasks.withType<KotlinCompile>() {
+tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
 
 application {
-    mainClassName = "Day01Kt"
+    mainClassName = "AOCKt"
 }
