@@ -2,12 +2,10 @@ import org.junit.Test
 import org.junit.Assert.assertEquals
 
 class Day01Test {
-    private var d: Day01 = Day01()
-
     @Test
-    fun sample1() {
+    fun sample01() {
         assertEquals(
-            514579, d.part1(
+            514579, part1(
                 listOf(
                     1721,
                     979,

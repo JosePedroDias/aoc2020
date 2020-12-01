@@ -1,9 +1,41 @@
+fun <A>combine2seq(lst:List<A>, withReps:Boolean):Sequence<Pair<A, A>> {
+    val n = lst.size
+    return sequence<Pair<A, A>> {
+        for (i in 0 until n) {
+            for (j in 0 until n) {
+                val addPair = (!withReps && i < j) || (withReps && i != j)
+                if (addPair) {
+                    yield(Pair(lst[i], lst[j]))
+                }
+            }
+        }
+    }
+}
+
+fun <A>combine3seq(lst:List<A>, withReps:Boolean):Sequence<Triple<A, A, A>> {
+    val n = lst.size
+    return sequence<Triple<A, A, A>> {
+        for (i in 0 until n) {
+            for (j in 0 until n) {
+                for (k in 0 until n) {
+                    val addTriple = (!withReps && i < j && j < k) || (withReps && i != j && j != k)
+                    if (addTriple) {
+                        yield(Triple(lst[i], lst[j], lst[k]))
+                    }
+                }
+            }
+        }
+    }
+}
+
+///
+
 fun <A>combine2(lst:List<A>, withReps:Boolean):List<Pair<A, A>> {
     val res = mutableListOf<Pair<A,A>>()
     val n = lst.size
     for (i in 0 until n) {
         for (j in 0 until n) {
-            val addPair = (!withReps && i < j) || (withReps && i !== j);
+            val addPair = (!withReps && i < j) || (withReps && i != j)
             if (addPair) {
                 res.add(Pair(lst[i], lst[j]))
             }
@@ -18,7 +50,7 @@ fun <A>combine3(lst:List<A>, withReps:Boolean):List<Triple<A, A, A>> {
     for (i in 0 until n) {
         for (j in 0 until n) {
             for (k in 0 until n) {
-                val addTriple = (!withReps && i < j && j < k) || (withReps && i !== j && j !== k);
+                val addTriple = (!withReps && i < j && j < k) || (withReps && i != j && j != k)
                 if (addTriple) {
                     res.add(Triple(lst[i], lst[j], lst[k]))
                 }
