@@ -1,7 +1,7 @@
 package d01
 
-import common.combine2seq
-import common.combine3seq
+import common.perm2
+import common.perm3
 import java.io.File
 
 internal fun parseInput(): List<Int> {
@@ -11,7 +11,7 @@ internal fun parseInput(): List<Int> {
 }
 
 fun part1(lst: List<Int>): Int? {
-    val comb = combine2seq(lst, false)
+    val comb = perm2(lst)
     val goal = 2020
     val pair = comb.firstOrNull {
         val (a, b) = it
@@ -31,7 +31,7 @@ fun part1(lst: List<Int>): Int? {
 }
 
 fun part2(lst: List<Int>): Int? {
-    val comb = combine3seq(lst, false)
+    val comb = perm3(lst)
     val goal = 2020
     val trio = comb.firstOrNull {
         val (a, b, c) = it
