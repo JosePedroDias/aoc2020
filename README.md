@@ -6,6 +6,7 @@
 ### kotlin
 
 - [collections](https://kotlinlang.org/docs/reference/collection-operations.html)
+- [regex](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-regex/)
 - [parallel execution w/ coroutines](https://jivimberg.io/blog/2018/05/04/parallel-map-in-kotlin/)
 - [test time taken](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.system/measure-time-millis.html)
 - [JVM memory params](https://www.baeldung.com/jvm-parameters)
