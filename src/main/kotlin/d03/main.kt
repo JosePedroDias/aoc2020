@@ -39,7 +39,7 @@ fun part1(m:WrappingXMatrix, slope:Pair<Int,Int>):Long {
 }
 
 fun part2(m:WrappingXMatrix, slopes:List<Pair<Int,Int>>):Long {
-    println(slopes.map{ part1(m, it) })
+    // println(slopes.map{ part1(m, it) })
     return slopes.map{ part1(m, it) }.reduce { acc, item -> item * acc }
 }
 
