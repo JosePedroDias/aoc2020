@@ -2,8 +2,7 @@ package d03
 
 import java.io.File
 
-val TREE = '#'
-val EMPTY = '.'
+const val TREE = '#'
 
 data class WrappingXMatrix(private val lines: List<String>) {
     val width: Int = lines[0].length
