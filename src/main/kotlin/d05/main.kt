@@ -53,27 +53,22 @@ fun part1(bsps:Sequence<String>): Int? {
         .map { calcSeatId(it) }.maxOrNull()
 }
 
-fun part2(bsps:Sequence<String>):Int {
-    val withoutLimitRows = bsps
+fun part2(bsps:Sequence<String>):Int? {
+    val rowSeatIds = bsps
         .map { bspToSeat(it) }
         .filter { it.first in 1..126 }
+        .map { pairToSeatId(it)  }.sorted()
 
-    val byRow = withoutLimitRows
-        .groupBy { it.first }
-        .values.toList()
+    val sortedIdPairs = rowSeatIds.zipWithNext()
 
-    byRow.forEach {
-        val rowSeatIds = it.map { pairToSeatId(it) }.sorted()
-        val consecutive = rowSeatIds.zipWithNext()
-        consecutive.forEach {
-            if (it.second - it.first == 2) {
-                println(it.first + 1)
-                return it.first + 1
-            }
+    sortedIdPairs.forEach {
+        val (a, b) = it
+        if (b - a == 2) {
+            return a + 1
         }
-        // println(rowSeatIds)
     }
-    return 0
+
+    return null
 }
 
 fun main() {
