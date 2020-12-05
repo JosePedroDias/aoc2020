@@ -12,4 +12,7 @@ fun main() {
 
     println("\n-- D04 --\n")
     d04.main()
+
+    println("\n-- D05 --\n")
+    d05.main()
 }
