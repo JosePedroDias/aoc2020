@@ -23,7 +23,7 @@ fun part1(lst: List<Int>): Int? {
     if (pair != null) {
         val (a, b) = pair
         val res = a * b
-        println("$a * $b => $res")
+        //println("$a * $b => $res")
         return res
     }
     println("pair not found?")
@@ -43,7 +43,7 @@ fun part2(lst: List<Int>): Int? {
     if (trio != null) {
         val (a, b, c) = trio
         val res = a * b * c
-        println("$a * $b * $c => $res")
+        //println("$a * $b * $c => $res")
         return res
     }
     println("trio not found?")

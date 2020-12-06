@@ -30,7 +30,7 @@ fun parseLines(lines:Sequence<String>):List<List<Set<Char>>> {
 
 fun part1(feedback:List<List<Set<Char>>>): Int {
     val processGroups = feedback.map {
-        it.fold(setOf<Char>()) {
+        it.reduce {
             acc, set -> acc.union(set)
         }
     }
@@ -39,7 +39,7 @@ fun part1(feedback:List<List<Set<Char>>>): Int {
 
 fun part2(feedback:List<List<Set<Char>>>):Int {
     val processGroups = feedback.map {
-        it.fold(setOf<Char>('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z')) {
+        it.reduce{
                 acc, set -> acc.intersect(set)
         }
     }
