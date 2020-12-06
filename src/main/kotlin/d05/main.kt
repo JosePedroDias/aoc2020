@@ -2,6 +2,10 @@ package d05
 
 import java.io.File
 
+val WHITESPACE_LINE_REGEX = Regex("""\s*""")
+
+val FIELD_REGEX = Regex("""\s*""")
+
 internal fun parseInput(): Sequence<String> {
     return File("aoc/05.txt").readLines().asSequence()
 }
