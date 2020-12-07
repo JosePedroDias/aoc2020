@@ -2,7 +2,6 @@ package d07
 
 import java.io.File
 
-val COMMA_REGEX = Regex(""",""")
 val SPACE_REGEX = Regex(""" """)
 
 internal fun parseInput(): Sequence<String> {
@@ -40,26 +39,15 @@ fun parseRule(line:String):Rule {
     return Rule(line)
 }
 
-fun numCommas(line:String):Int {
-    val m = COMMA_REGEX.findAll(line)
-    return m.count()
-}
-
 fun parseLines(lines:Sequence<String>): HashMap<String, MutableList<Rule>> {
     val map = hashMapOf<String, MutableList<Rule>>()
     lines.forEach {
-        /*val nc = numCommas(it)
-        if (nc > 3) {
-            println(nc)
-        }*/
-        // 0-3 commas => 1-4 kinds in the to
-
         val rule = parseRule(it)
         rule.tos.forEach {
-            val toName = it.second
-            val bag = map.get(toName)
+            (_, kind) ->
+            val bag = map[kind]
             if (bag == null) {
-                map.set(toName, mutableListOf(rule))
+                map[kind] = mutableListOf(rule)
             } else {
                 bag.add(rule)
             }
@@ -68,18 +56,15 @@ fun parseLines(lines:Sequence<String>): HashMap<String, MutableList<Rule>> {
     return map
 }
 
-fun getABagOf(m:HashMap<String, MutableList<Rule>>, visitedKinds: MutableSet<String>, kind:String):Int {
-    val rulesToKind = m.get(kind)
-    if (rulesToKind != null) {
-        rulesToKind.forEach {
-            val kind2 = it.from
-            println("-> $kind2")
-            if (visitedKinds.contains(kind2)) {
-                println("Ignore")
-            } else {
-                visitedKinds.add(kind2)
-                getABagOf(m, visitedKinds, kind2)
-            }
+fun getABagOf(m: HashMap<String, MutableList<Rule>>, visitedKinds: MutableSet<String>, kind: String): Int {
+    m[kind]?.forEach {
+        val kind2 = it.from
+        println("-> $kind2")
+        if (visitedKinds.contains(kind2)) {
+            println("Ignore")
+        } else {
+            visitedKinds.add(kind2)
+            getABagOf(m, visitedKinds, kind2)
         }
     }
     println(visitedKinds)
