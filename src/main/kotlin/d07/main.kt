@@ -56,12 +56,21 @@ fun parseLines(lines:Sequence<String>): HashMap<String, MutableList<Rule>> {
     return map
 }
 
+fun parseLines2(lines:Sequence<String>): HashMap<String, Rule> {
+    val map = hashMapOf<String, Rule>()
+    lines.forEach {
+        val rule = parseRule(it)
+        map[rule.from] = rule
+    }
+    return map
+}
+
 fun getABagOf(m: HashMap<String, MutableList<Rule>>, visitedKinds: MutableSet<String>, kind: String): Int {
     m[kind]?.forEach {
         val kind2 = it.from
-        println("-> $kind2")
+        //println("-> $kind2")
         if (visitedKinds.contains(kind2)) {
-            println("Ignore")
+            //println("Ignore")
         } else {
             visitedKinds.add(kind2)
             getABagOf(m, visitedKinds, kind2)
@@ -76,17 +85,29 @@ fun part1(m:HashMap<String, MutableList<Rule>>): Int {
     return getABagOf(m, visitedKinds, "shiny gold")
 }
 
-fun part2(m:HashMap<String, MutableList<Rule>>):Int {
-    val visitedKinds = mutableSetOf<String>()
-    return getABagOf(m, visitedKinds, "shiny gold")
+
+fun bagToGet(m:HashMap<String, Rule>, kind:String):Int {
+    var n = 1
+    val r = m[kind]
+    if (r == null) {
+        throw Exception("kind not found: $kind")
+    }
+    r.tos.forEach {
+        n += it.first * bagToGet(m, it.second)
+    }
+    return n
+}
+
+fun part2(m:HashMap<String, Rule>):Int {
+    return bagToGet(m, "shiny gold")
 }
 
 fun main() {
     val m = parseLines( parseInput() )
-
     val answer1 = part1(m)
     println("R1: $answer1\n")
 
-    val answer2 = part2(m)
+    val m2 = parseLines2( parseInput() )
+    val answer2 = part2(m2) - 1
     println("R2: $answer2\n")
 }
