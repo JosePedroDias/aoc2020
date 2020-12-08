@@ -1,5 +1,8 @@
 # advent of code 2020
 
+    gradle run
+    gradle test
+    gradle aoc --day=08
 
 ## resources
 
@@ -13,21 +16,6 @@
 - [memory usage](https://www.baeldung.com/java-heap-memory-api)
 - [basic coroutines](https://kotlinlang.org/docs/tutorials/coroutines/coroutines-basic-jvm.html)
 - [coroutines guide](https://github.com/Kotlin/kotlinx.coroutines/blob/master/coroutines-guide.md)
-- [kmath](https://github.com/mipt-npm/kmath)
-
-#### notes
-
-```kotlin
-    // memory used
-    val memoryMXBean = ManagementFactory.getMemoryMXBean()
-    println("mem: ${memoryMXBean.heapMemoryUsage.used}")
-
-    // time taken
-    val ms = measureTimeMillis {
-        // do stuff here
-    }
-    println("took ${ms} ms")
-```
 
 ### gradle
 
