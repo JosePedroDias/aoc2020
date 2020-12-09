@@ -24,4 +24,7 @@ fun main() {
 
     println("\n-- D08 --\n")
     d08.main()
+
+    println("\n-- D09 --\n")
+    d09.main()
 }

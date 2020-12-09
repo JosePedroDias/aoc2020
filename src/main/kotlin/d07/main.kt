@@ -76,7 +76,7 @@ fun getABagOf(m: HashMap<String, MutableList<Rule>>, visitedKinds: MutableSet<St
             getABagOf(m, visitedKinds, kind2)
         }
     }
-    println(visitedKinds)
+    //println(visitedKinds)
     return visitedKinds.size
 }
 
