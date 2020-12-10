@@ -16,6 +16,7 @@
 - [memory usage](https://www.baeldung.com/java-heap-memory-api)
 - [basic coroutines](https://kotlinlang.org/docs/tutorials/coroutines/coroutines-basic-jvm.html)
 - [coroutines guide](https://github.com/Kotlin/kotlinx.coroutines/blob/master/coroutines-guide.md)
+- [immutable collections](https://github.com/Kotlin/kotlinx.collections.immutable)
 
 ### gradle
 

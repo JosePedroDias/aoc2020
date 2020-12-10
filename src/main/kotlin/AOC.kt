@@ -27,4 +27,7 @@ fun main() {
 
     println("\n-- D09 --\n")
     d09.main()
+
+    println("\n-- D10 --\n")
+    d10.main()
 }

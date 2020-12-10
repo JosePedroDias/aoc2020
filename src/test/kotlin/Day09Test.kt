@@ -5,7 +5,7 @@ import org.junit.Assert.assertEquals
 import d09.part1
 import d09.part2
 
-val ex1 = """35
+val ex9_1 = """35
 20
 15
 25
@@ -26,7 +26,7 @@ val ex1 = """35
 309
 576""".split("\n").asSequence()
 
-val ex2 = """35
+val ex9_2 = """35
 20
 15
 25
@@ -50,11 +50,11 @@ val ex2 = """35
 class Day09Test {
     @Test
     fun checkEx1() {
-        assertEquals(part1(parseLines(ex1), 5),127L)
+        assertEquals(127L, part1(parseLines(ex9_1), 5))
     }
 
     @Test
     fun checkEx2() {
-        assertEquals(part2(parseLines(ex2), 127),62L)
+        assertEquals(62L, part2(parseLines(ex9_2), 127))
     }
 }
