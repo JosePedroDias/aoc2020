@@ -29,26 +29,35 @@ fun isValidNext(from:Int, to:Int, goal:Int):Boolean {
     return to in from+1..from+3 && to <= goal
 }
 
-fun step(pair:Pair<PersistentList<Int>, PersistentList<Int>>, goal:Int): List<Pair<PersistentList<Int>, PersistentList<Int>>> {
-    val (visited, yetToVisit) = pair
+fun step(visited:PersistentList<Int>, yetToVisit:PersistentList<Int>, goal:Int): PersistentList<Int>? {
     val from = visited.last()
-    //println("from:$from #ad:${adapters.size} goal:$goal")
-    return yetToVisit.fold(mutableListOf()) {
-        acc, to ->
-        if (isValidNext(from, to, goal)) {
-            //println("$from -> $to")
-            acc.add(Pair(visited.add(to), yetToVisit.remove(to)))
-        }
-        acc
+    //println("$visited $yetToVisit")
+    if (yetToVisit.isEmpty()) {
+        return visited
     }
+    yetToVisit.forEach {
+        to ->
+        if (isValidNext(from, to, goal)) {
+            val res = step(visited.add(to), yetToVisit.remove(to), goal)
+            if (res != null) {
+                return res
+            }
+        }
+    }
+    return null
 }
 
 fun countTransitions(lst:List<Int>):Pair<Int, Int> {
     val deltas = lst.zipWithNext().map {
-        (a, b) -> b - a
+        (a, b) ->
+        //println("$a (${b-a}) $b")
+        b - a
     }
     val ones = deltas.filter { it == 1 }.count()
     val threes = deltas.filter { it == 3 }.count()
+
+    //println("""1s: $ones
+//3s: $threes""")
 
     return Pair(ones, threes + 1) // TODO WHY?
 }
@@ -57,18 +66,11 @@ fun part1(startAdapters:PersistentList<Int>): Int {
     val goal = startAdapters.maxOrNull() ?: return 0
     // println("goal: $goal")
 
-    var alternatives = listOf(
-        Pair(persistentListOf(0), startAdapters.sorted().toPersistentList())
-    )
+    val visited = persistentListOf(0)
+    val yetToVisit = startAdapters.sorted().toPersistentList()
 
-    do {
-        //println(alternatives)
-        alternatives = alternatives.fold(emptyList()) {
-            acc, pair -> acc + step(pair, goal)
-        }
-    } while (alternatives.first().second.isNotEmpty())
+    val steps = step(visited, yetToVisit, goal) ?: return 0
 
-    val steps = alternatives.first().first
     val transitions = countTransitions(steps)
 
     return transitions.first * transitions.second
