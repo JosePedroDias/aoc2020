@@ -15,57 +15,60 @@ fun parseLines(lines:Sequence<String>):List<Long> {
     return nums
 }
 
-fun part1(nums:List<Long>): Long {
-    val pLen = 25
-    val hLen = 25
+fun part1(nums:List<Long>, preambleSize:Int): Long? {
+    val past = ArrayDeque<Long>()
 
-    val pi = 0
-    val pf = pLen
+    nums.forEachIndexed {
+        i, n ->
 
-    val hi = 0//pf + 1
-    val hf = pi + hLen
+        if (i >= preambleSize) {
+            val possibleNexts = perm2(past).map {
+                it.first + it.second
+            }.toList()
 
-    val ni = hf + 1
-    val nf = hf + 10
+            if (!possibleNexts.contains(n)) {
+                return n
+            }
+        }
 
-    val preamble = nums.subList(pi, pf)
-    println("\npreamble (${preamble.size})")
-    println(preamble)
-
-    val recentHistory = nums.subList(hi, hf)
-    println("\nrecentHistory (${recentHistory.size})")
-    println(recentHistory)
-
-    val possibleNexts = perm2(recentHistory).map {
-        it.first + it.second
-    }.toList()
-    println("\npossibleNexts (${possibleNexts.size})")
-    println(possibleNexts)
-
-    val nexts = nums.subList(ni, nf)
-    println("\nnexts (${nexts.size})")
-    println(nexts)
-
-    nexts.forEach {
-        val found = possibleNexts.contains(it)
-        if (!found) {
-            println("NOT FOUND: $it")
+        past.addFirst(n)
+        if (past.size > preambleSize) {
+            past.removeLast()
         }
     }
 
-    return 0
+    return null
 }
 
-fun part2():Int {
-    return 0
+fun part2(nums:List<Long>, target:Long):Long? {
+    val past = mutableListOf<Long>()
+
+    nums.forEachIndexed {
+        l, n ->
+        past.add(n)
+
+        for (i in 1..l) {
+            val subPast = past.subList(l-i, l)
+            if (subPast.sum() == target) {
+                val a = subPast.minOrNull()
+                val b = subPast.maxOrNull()
+                if (a != null && b != null) {
+                    return a + b
+                }
+            }
+        }
+    }
+    return null
 }
 
 fun main() {
     val m = parseLines( parseInput() )
 
-    val answer1 = part1(m)
+    val answer1 = part1(m, 25)
     println("R1: $answer1\n")
 
-    //val answer2 = part2(m)
-    //println("R2: $answer2\n")
+    if (answer1 != null) {
+        val answer2 = part2(m, answer1)
+        println("R2: $answer2\n")
+    }
 }
