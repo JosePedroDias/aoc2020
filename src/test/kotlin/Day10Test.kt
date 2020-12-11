@@ -4,6 +4,7 @@ import org.junit.Assert.assertEquals
 
 import d10.parseLines
 import d10.part1
+import d10.part2
 
 val ex10_1 = """16
 10
@@ -51,14 +52,26 @@ val ex10_2 = """28
 
 class Day10Test {
     @Test
-    fun checkEx1() {
+    fun checkEx1a() {
         val adapters = parseLines(ex10_1)
         assertEquals(7 * 5, part1(adapters))
     }
 
     @Test
-    fun checkEx2() {
+    fun checkEx1b() {
         val adapters = parseLines(ex10_2)
         assertEquals(22 * 10, part1(adapters))
+    }
+
+    @Test
+    fun checkEx2a() {
+        val adapters = parseLines(ex10_1)
+        assertEquals(8, part2(adapters))
+    }
+
+    @Test
+    fun checkEx2b() {
+        val adapters = parseLines(ex10_2)
+        assertEquals(19208, part2(adapters))
     }
 }

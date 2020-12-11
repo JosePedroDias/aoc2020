@@ -47,6 +47,46 @@ fun step(visited:PersistentList<Int>, yetToVisit:PersistentList<Int>, goal:Int):
     return null
 }
 
+var found = 0
+
+val resultOf = hashMapOf<String, Boolean>()
+
+fun serializeArgs(from:Int, yetToVisit:PersistentList<Int>):String {
+    return "$from/$yetToVisit" //yetToVisit.add(0, from).joinToString(",")
+}
+
+fun step2(visited:PersistentList<Int>, yetToVisit:PersistentList<Int>, goal:Int):Boolean? {
+    val from = visited.last()
+
+    if (yetToVisit.isEmpty()) {
+        ++found
+        resultOf[serializeArgs(from, yetToVisit)] = true
+        return true
+    }
+
+    val cachedRes = resultOf.getOrDefault(serializeArgs(from, yetToVisit), null)
+    if (cachedRes != null) {
+        if (cachedRes) {
+            ++found
+        }
+        return cachedRes
+    }
+
+    yetToVisit.forEach {
+        to ->
+        if (isValidNext(from, to, goal)) {
+            val nextVisited = visited.add(to)
+            val nextYetToVisit = yetToVisit.remove(to)
+            val res = step2(nextVisited, nextYetToVisit, goal)
+            if (res != null) {
+                resultOf[serializeArgs(to, nextYetToVisit)] = res
+            }
+        }
+    }
+
+    return null
+}
+
 fun countTransitions(lst:List<Int>):Pair<Int, Int> {
     val deltas = lst.zipWithNext().map {
         (a, b) ->
@@ -70,14 +110,20 @@ fun part1(startAdapters:PersistentList<Int>): Int {
     val yetToVisit = startAdapters.sorted().toPersistentList()
 
     val steps = step(visited, yetToVisit, goal) ?: return 0
-
     val transitions = countTransitions(steps)
-
     return transitions.first * transitions.second
 }
 
-fun part2():Int {
-    return 0
+fun part2(startAdapters:PersistentList<Int>):Int {
+    val goal = startAdapters.maxOrNull() ?: return 0
+    // println("goal: $goal")
+
+    val visited = persistentListOf(0)
+    val yetToVisit = startAdapters.sorted().toPersistentList()
+
+    step2(visited, yetToVisit, goal)
+
+    return found
 }
 
 fun main() {
