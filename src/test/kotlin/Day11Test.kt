@@ -2,6 +2,7 @@ import org.junit.Test
 import org.junit.Assert.assertEquals
 
 import d11.step
+import d11.step2
 import d11.Matrix
 import d11.OCCUPIED
 
@@ -97,5 +98,63 @@ L.#.L..#..
         assertEquals(true, m6 == m7)
 
         assertEquals(37, m7.ofKind(OCCUPIED))
+    }
+
+    @Test
+    fun testVisible() {
+        val m = Matrix(""".......#.
+...#.....
+.#.......
+.........
+..#L....#
+....#....
+.........
+#........
+...#.....""".split("\n"))
+        assertEquals(8,m.neighborsOfKind2(3,4, '#'))
+    }
+
+    @Test
+    fun testStep2() {
+        val m1 = Matrix(ex11_1)
+
+        val m2 = step2(m1)
+        assertEquals(
+            """#.##.##.##
+#######.##
+#.#.#..#..
+####.##.##
+#.##.##.##
+#.#####.##
+..#.#.....
+##########
+#.######.#
+#.#####.##""", m2.toString())
+
+            val m3 = step2(m2)
+        assertEquals(
+            """#.LL.LL.L#
+#LLLLLL.LL
+L.L.L..L..
+LLLL.LL.LL
+L.LL.LL.LL
+L.LLLLL.LL
+..L.L.....
+LLLLLLLLL#
+#.LLLLLL.L
+#.LLLLL.L#""", m3.toString())
+
+        val m4 = step2(m3)
+        assertEquals(
+            """#.L#.##.L#
+#L#####.LL
+L.#.#..#..
+##L#.##.##
+#.##.#L.##
+#.#####.#L
+..#.#.....
+LLL####LL#
+#.L#####.L
+#.L####.L#""", m4.toString())
     }
 }
