@@ -30,4 +30,7 @@ fun main() {
 
     println("\n-- D10 --\n")
     d10.main()
+
+    println("\n-- D11 --\n")
+    d11.main()
 }
