@@ -2,7 +2,6 @@ package d11
 
 import java.io.File
 
-// const val FLOOR = '.'
 const val EMPTY = 'L'
 const val OCCUPIED = '#'
 
@@ -66,7 +65,7 @@ data class Matrix(private val lines_: List<String>) {
                     dirFound = true
                 }
                 p = Pair(p.first + d.first, p.second + d.second)
-            } while (!dirFound && p.first in 0 until width && p.second in 0 until height)
+            } while (!dirFound && (p.first in 0 until width && p.second in 0 until height))
         }
         return found
     }
@@ -172,28 +171,24 @@ fun step2(m:Matrix):Matrix {
     return m2
 }
 
-fun part1(m_:Matrix): Int {
+fun simulate(m_:Matrix, fn:(m:Matrix)->Matrix): Int {
     var mPrev = Matrix("  \n  ".split("\n"))
     var m = m_
 
     while (m != mPrev) {
         mPrev = m
-        m = step(m)
+        m = fn(m)
     }
 
     return m.ofKind(OCCUPIED)
 }
 
-fun part2(m_:Matrix):Int {
-    var mPrev = Matrix("  \n  ".split("\n"))
-    var m = m_
+fun part1(m:Matrix): Int {
+    return simulate(m, ::step)
+}
 
-    while (m != mPrev) {
-        mPrev = m
-        m = step2(m)
-    }
-
-    return m.ofKind(OCCUPIED)
+fun part2(m:Matrix):Int {
+    return simulate(m, ::step2)
 }
 
 fun main() {

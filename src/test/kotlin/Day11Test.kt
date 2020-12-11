@@ -112,6 +112,20 @@ L.#.L..#..
 #........
 ...#.....""".split("\n"))
         assertEquals(8,m.neighborsOfKind2(3,4, '#'))
+
+        val m2 = Matrix(""".............
+.L.L.#.#.#.#.
+.............""".split("\n"))
+        assertEquals(1,m2.neighborsOfKind2(1,1, '#'))
+
+        val m3 = Matrix(""".##.##.
+#.#.#.#
+##...##
+...L...
+##...##
+#.#.#.#
+.##.##.""".split("\n"))
+        assertEquals(0,m3.neighborsOfKind2(3,3, '#'))
     }
 
     @Test
@@ -156,5 +170,46 @@ L.#.#..#..
 LLL####LL#
 #.L#####.L
 #.L####.L#""", m4.toString())
+
+        val m5 = step2(m4)
+        assertEquals(
+            """#.L#.L#.L#
+#LLLLLL.LL
+L.L.L..#..
+##LL.LL.L#
+L.LL.LL.L#
+#.LLLLL.LL
+..L.L.....
+LLLLLLLLL#
+#.LLLLL#.L
+#.L#LL#.L#""", m5.toString())
+
+        val m6 = step2(m5)
+        assertEquals(
+            """#.L#.L#.L#
+#LLLLLL.LL
+L.L.L..#..
+##L#.#L.L#
+L.L#.#L.L#
+#.L####.LL
+..#.#.....
+LLL###LLL#
+#.LLLLL#.L
+#.L#LL#.L#""", m6.toString())
+
+        val m7 = step2(m6)
+        assertEquals(
+            """#.L#.L#.L#
+#LLLLLL.LL
+L.L.L..#..
+##L#.#L.L#
+L.L#.LL.L#
+#.LLLL#.LL
+..#.L.....
+LLL###LLL#
+#.LLLLL#.L
+#.L#LL#.L#""", m7.toString())
+
+        assertEquals(26,m7.neighborsOfKind2(3,4, '#'))
     }
 }
