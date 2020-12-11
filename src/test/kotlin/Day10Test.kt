@@ -1,4 +1,3 @@
-import d10.parseInput
 import org.junit.Test
 import org.junit.Assert.assertEquals
 

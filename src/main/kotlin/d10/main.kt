@@ -47,64 +47,54 @@ fun step(visited:PersistentList<Int>, yetToVisit:PersistentList<Int>, goal:Int):
     return null
 }
 
-var found = 0
-
 val resultOf = hashMapOf<String, Boolean>()
 
 fun serializeArgs(from:Int, yetToVisit:PersistentList<Int>):String {
     return "$from/$yetToVisit" //yetToVisit.add(0, from).joinToString(",")
 }
 
-fun step2(visited:PersistentList<Int>, yetToVisit:PersistentList<Int>, goal:Int):Boolean? {
+fun step2(visited:PersistentList<Int>, yetToVisit:PersistentList<Int>, goal:Int, onFound:()->Unit) {
     val from = visited.last()
+    println("$from -> $yetToVisit")
 
     if (yetToVisit.isEmpty()) {
-        ++found
-        resultOf[serializeArgs(from, yetToVisit)] = true
-        return true
+        onFound()
+        println("!!!! $visited")
+        //resultOf[serializeArgs(from, yetToVisit)] = true
+        //return
     }
 
-    val cachedRes = resultOf.getOrDefault(serializeArgs(from, yetToVisit), null)
+    /*val cachedRes = resultOf.getOrDefault(serializeArgs(from, yetToVisit), null)
     if (cachedRes != null) {
         if (cachedRes) {
-            ++found
+            onFound()
         }
         return cachedRes
-    }
+    }*/
 
     yetToVisit.forEach {
         to ->
         if (isValidNext(from, to, goal)) {
             val nextVisited = visited.add(to)
             val nextYetToVisit = yetToVisit.remove(to)
-            val res = step2(nextVisited, nextYetToVisit, goal)
-            if (res != null) {
-                resultOf[serializeArgs(to, nextYetToVisit)] = res
-            }
+            step2(nextVisited, nextYetToVisit, goal, onFound)
         }
     }
-
-    return null
 }
 
 fun countTransitions(lst:List<Int>):Pair<Int, Int> {
     val deltas = lst.zipWithNext().map {
         (a, b) ->
-        //println("$a (${b-a}) $b")
         b - a
     }
     val ones = deltas.filter { it == 1 }.count()
     val threes = deltas.filter { it == 3 }.count()
-
-    //println("""1s: $ones
-//3s: $threes""")
 
     return Pair(ones, threes + 1) // TODO WHY?
 }
 
 fun part1(startAdapters:PersistentList<Int>): Int {
     val goal = startAdapters.maxOrNull() ?: return 0
-    // println("goal: $goal")
 
     val visited = persistentListOf(0)
     val yetToVisit = startAdapters.sorted().toPersistentList()
@@ -116,12 +106,14 @@ fun part1(startAdapters:PersistentList<Int>): Int {
 
 fun part2(startAdapters:PersistentList<Int>):Int {
     val goal = startAdapters.maxOrNull() ?: return 0
-    // println("goal: $goal")
 
     val visited = persistentListOf(0)
     val yetToVisit = startAdapters.sorted().toPersistentList()
 
-    step2(visited, yetToVisit, goal)
+    var found = 0
+    fun onFound() { ++found }
+
+    step2(visited, yetToVisit, goal, ::onFound)
 
     return found
 }
