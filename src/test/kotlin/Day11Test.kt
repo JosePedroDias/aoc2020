@@ -116,7 +116,7 @@ L.#.L..#..
         val m2 = Matrix(""".............
 .L.L.#.#.#.#.
 .............""".split("\n"))
-        assertEquals(1,m2.neighborsOfKind2(1,1, '#'))
+        assertEquals(0,m2.neighborsOfKind2(1,1, '#'))
 
         val m3 = Matrix(""".##.##.
 #.#.#.#
@@ -210,6 +210,6 @@ LLL###LLL#
 #.LLLLL#.L
 #.L#LL#.L#""", m7.toString())
 
-        assertEquals(26,m7.neighborsOfKind2(3,4, '#'))
+        assertEquals(26,m7.ofKind('#'))
     }
 }

@@ -64,6 +64,9 @@ data class Matrix(private val lines_: List<String>) {
                     ++found
                     dirFound = true
                 }
+                else if (v == EMPTY) {
+                    dirFound = true
+                }
                 p = Pair(p.first + d.first, p.second + d.second)
             } while (!dirFound && (p.first in 0 until width && p.second in 0 until height))
         }
