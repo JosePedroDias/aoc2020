@@ -1,8 +1,5 @@
 package d10
 
-import kotlinx.collections.immutable.PersistentList
-import kotlinx.collections.immutable.persistentListOf
-import kotlinx.collections.immutable.toPersistentList
 import java.io.File
 
 internal fun parseInput(): Sequence<String> {
@@ -22,76 +19,30 @@ fun parseLines(lines:Sequence<String>):List<Int> {
 // we end with highest + 3 jolts
 // every connection -3 or +1, +2 or +3
 
-// count differences of 1, differences of 3
-// return d1 * d3
-
-fun isValidNext(from:Int, to:Int, goal:Int):Boolean {
-    return to in from+1..from+3 && to <= goal
+fun getAllJolts(lst:List<Int>): List<Int> {
+    return listOf(0) + lst + listOf(lst.last()+3)
 }
 
-fun step(visited:PersistentList<Int>, yetToVisit:PersistentList<Int>, goal:Int): PersistentList<Int>? {
-    val from = visited.last()
-    //println("$visited $yetToVisit")
-    if (yetToVisit.isEmpty()) {
-        return visited
-    }
-    yetToVisit.forEach {
-        to ->
-        if (isValidNext(from, to, goal)) {
-            val res = step(visited.add(to), yetToVisit.remove(to), goal)
-            if (res != null) {
-                return res
-            }
-        }
-    }
-    return null
+fun toDeltas(lst:List<Int>): List<Int> {
+    return lst.zipWithNext().map { (a, b) -> b - a }
 }
 
-
-fun countTransitions(lst:List<Int>):Pair<Int, Int> {
-    val deltas = lst.zipWithNext().map {
-        (a, b) ->
-        b - a
-    }
-    val ones = deltas.filter { it == 1 }.count()
-    val threes = deltas.filter { it == 3 }.count()
-
-    return Pair(ones, threes + 1) // TODO WHY?
+fun part1(lst:List<Int>): Int {
+    val deltas = toDeltas(getAllJolts(lst))
+    val counts = deltas.groupingBy { it }.eachCount()
+    return counts.getValue(1) * counts.getValue(3)
 }
 
-fun part1(startAdapters:List<Int>): Int {
-    val goal = startAdapters.maxOrNull() ?: return 0
-
-    val visited = persistentListOf(0)
-    val yetToVisit = startAdapters.sorted().toPersistentList()
-
-    val steps = step(visited, yetToVisit, goal) ?: return 0
-    val transitions = countTransitions(steps)
-    return transitions.first * transitions.second
-}
-
-fun part2(startAdapters:List<Int>):Int {
-    val sorted =startAdapters.sorted()
-    val set = sorted.toSet()
-    //val goal = sorted.last()
-
-    val tos = hashMapOf<Int,List<Int>>()
-    tos[0] = mutableListOf(startAdapters.first())
-
-    sorted.subList(0, sorted.size-1).forEach {
-        val l = mutableListOf<Int>()
-        for (t in it+1..it+3) {
-            if (set.contains(t)) {
-                l.add(t)
-            }
-        }
-        tos[it] = l
+fun part2(lst:List<Int>): Long {
+    val deltas = getAllJolts(lst)
+    val paths = mutableMapOf<Int,Long>() // cache
+    paths[0] = 1L
+    deltas.drop(1).forEach {
+        paths[it] = (1..3)
+            .map { last -> paths.getOrDefault(it - last, 0) }
+            .sum()
     }
-
-    println(tos)
-    // TODO contiue
-
-    return 0
+    return paths[deltas.last()] ?: 0
 }
 
 fun main() {
