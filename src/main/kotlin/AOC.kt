@@ -33,4 +33,7 @@ fun main() {
 
     println("\n-- D11 --\n")
     d11.main()
+
+    println("\n-- D12 --\n")
+    d12.main()
 }

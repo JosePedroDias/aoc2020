@@ -9,12 +9,12 @@ internal fun parseInput(): Sequence<String> {
     return File("aoc/10.txt").readLines().asSequence()
 }
 
-fun parseLines(lines:Sequence<String>):PersistentList<Int> {
+fun parseLines(lines:Sequence<String>):List<Int> {
     val out = mutableListOf<Int>()
     lines.forEach {
         out.add(it.toInt())
     }
-    return out.toPersistentList()
+    return out.sorted()
 }
 
 // choose the highest in the list, add 3 (goal)
@@ -47,40 +47,6 @@ fun step(visited:PersistentList<Int>, yetToVisit:PersistentList<Int>, goal:Int):
     return null
 }
 
-val resultOf = hashMapOf<String, Boolean>()
-
-fun serializeArgs(from:Int, yetToVisit:PersistentList<Int>):String {
-    return "$from/$yetToVisit" //yetToVisit.add(0, from).joinToString(",")
-}
-
-fun step2(visited:PersistentList<Int>, yetToVisit:PersistentList<Int>, goal:Int, onFound:()->Unit) {
-    val from = visited.last()
-    println("$from -> $yetToVisit")
-
-    if (yetToVisit.isEmpty()) {
-        onFound()
-        println("!!!! $visited")
-        //resultOf[serializeArgs(from, yetToVisit)] = true
-        //return
-    }
-
-    /*val cachedRes = resultOf.getOrDefault(serializeArgs(from, yetToVisit), null)
-    if (cachedRes != null) {
-        if (cachedRes) {
-            onFound()
-        }
-        return cachedRes
-    }*/
-
-    yetToVisit.forEach {
-        to ->
-        if (isValidNext(from, to, goal)) {
-            val nextVisited = visited.add(to)
-            val nextYetToVisit = yetToVisit.remove(to)
-            step2(nextVisited, nextYetToVisit, goal, onFound)
-        }
-    }
-}
 
 fun countTransitions(lst:List<Int>):Pair<Int, Int> {
     val deltas = lst.zipWithNext().map {
@@ -93,7 +59,7 @@ fun countTransitions(lst:List<Int>):Pair<Int, Int> {
     return Pair(ones, threes + 1) // TODO WHY?
 }
 
-fun part1(startAdapters:PersistentList<Int>): Int {
+fun part1(startAdapters:List<Int>): Int {
     val goal = startAdapters.maxOrNull() ?: return 0
 
     val visited = persistentListOf(0)
@@ -104,18 +70,28 @@ fun part1(startAdapters:PersistentList<Int>): Int {
     return transitions.first * transitions.second
 }
 
-fun part2(startAdapters:PersistentList<Int>):Int {
-    val goal = startAdapters.maxOrNull() ?: return 0
+fun part2(startAdapters:List<Int>):Int {
+    val sorted =startAdapters.sorted()
+    val set = sorted.toSet()
+    //val goal = sorted.last()
 
-    val visited = persistentListOf(0)
-    val yetToVisit = startAdapters.sorted().toPersistentList()
+    val tos = hashMapOf<Int,List<Int>>()
+    tos[0] = mutableListOf(startAdapters.first())
 
-    var found = 0
-    fun onFound() { ++found }
+    sorted.subList(0, sorted.size-1).forEach {
+        val l = mutableListOf<Int>()
+        for (t in it+1..it+3) {
+            if (set.contains(t)) {
+                l.add(t)
+            }
+        }
+        tos[it] = l
+    }
 
-    step2(visited, yetToVisit, goal, ::onFound)
+    println(tos)
+    // TODO contiue
 
-    return found
+    return 0
 }
 
 fun main() {
@@ -124,6 +100,6 @@ fun main() {
     val answer1 = part1(m)
     println("R1: $answer1\n")
 
-    //val answer2 = part2(m)
-    //println("R2: $answer2\n")
+    val answer2 = part2(m)
+    println("R2: $answer2\n")
 }
